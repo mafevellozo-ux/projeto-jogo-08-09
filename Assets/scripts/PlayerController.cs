@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+using TMPro;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlatformController : MonoBehaviour
@@ -158,5 +160,18 @@ public class PlatformController : MonoBehaviour
             Gizmos.color = isGrounded ? Color.green : Color.red;
             Gizmos.DrawRay(transform.position, Vector2.down * 1.1f);
         }
+    }
+    public void ChangetextCoin(){
+        // coinCounter+=1;
+        // coinText.text = coinCounter.ToString();
+    }
+    public void Die(){
+        Destroy(gameObject);
+        ReloadCurrentScene();
+    }
+    public void ReloadCurrentScene()
+    {
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        SceneManager.LoadSceneAsync(currentSceneName);
     }
 }
