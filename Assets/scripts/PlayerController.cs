@@ -19,7 +19,10 @@ public class PlatformController : MonoBehaviour
     
     [Header("References")]
     [SerializeField] private Rigidbody2D rb;
-    
+
+    [Header("UAnimation settings")]
+    [SerializeField] private Animator anim;
+
     // Input Actions - using your PlayerActionMap asset
     private PlayerActionMap inputActions;
     private InputAction moveAction;
@@ -38,7 +41,9 @@ public class PlatformController : MonoBehaviour
         
         // Initialize input actions using YOUR PlayerActionMap asset
         inputActions = new PlayerActionMap();
-        
+
+        anim = GetComponent<Animator>();
+
         moveAction = inputActions.Player.Move;
         jumpAction = inputActions.Player.Jump;
     }
@@ -89,8 +94,8 @@ public class PlatformController : MonoBehaviour
         {
             // Ground check using circle cast at ground check point
             Collider2D[] colliders = Physics2D.OverlapCircleAll(
-                groundCheckPoint.position, 
-                groundCheckRadius, 
+                groundCheckPoint.position,
+                groundCheckRadius,
                 groundLayer
             );
             isGrounded = colliders.Length > 0;
@@ -99,24 +104,36 @@ public class PlatformController : MonoBehaviour
         {
             // Simple ground check using raycast from center
             RaycastHit2D hit = Physics2D.Raycast(
-                transform.position, 
-                Vector2.down, 
+                transform.position,
+                Vector2.down,
                 1.1f,
                 groundLayer
             );
             isGrounded = hit.collider != null;
         }
+        anim.SetBool("OnGround", isGrounded);
     }
-    
+
     private void MovePlayer()
     {
         // Apply horizontal movement
         rb.linearVelocity = new Vector2(
             moveInput.x * moveSpeed,
             rb.linearVelocity.y
+
         );
+        anim.SetBool("isMoving", rb.linearVelocity.magnitude > 0.1f);
+        if (rb.linearVelocity.x > 0.1f)
+        {
+            this.GetComponent<SpriteRenderer>().flipX = false;
+        }
+        else if (rb.linearVelocity.x < -0.1f)
+        {
+            this.GetComponent<SpriteRenderer>().flipX = true;
+        }
     }
-    
+
+
     private void ApplyJumpPhysics()
     {
         // Better jump physics (variable jump height)
