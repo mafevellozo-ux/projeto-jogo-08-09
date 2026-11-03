@@ -14,12 +14,12 @@ public class BulletController : MonoBehaviour
             rb.linearVelocity = Vector2.right * initialVelocity;
         }
         else {
-            rb.linearVelocity = Vector2.left*initialVelocity;
-    }
+            rb.linearVelocity = Vector2.left * initialVelocity;
+        }
 
-   
-    void Update()
-    {
-        
+
+        void Update()
+        {
+
+        }
     }
-}
