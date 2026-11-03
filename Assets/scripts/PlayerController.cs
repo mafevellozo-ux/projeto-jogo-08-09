@@ -122,7 +122,7 @@ public class PlatformController : MonoBehaviour
             rb.linearVelocity.y
 
         );
-        anim.SetBool("isMoving", rb.linearVelocity.magnitude > 0.1f);
+        anim.SetBool("isMoving", rb.linearVelocity.magnitude > 0.2f);
         if (rb.linearVelocity.x > 0.1f)
         {
             this.GetComponent<SpriteRenderer>().flipX = false;
